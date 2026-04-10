@@ -10,6 +10,7 @@ private String password;
 private String role;
 public int getCutomerId() {
     return cutomerId;
+    //checkiong
 }
 public void setCutomerId(int cutomerId) {
     this.cutomerId = cutomerId;
