@@ -1,7 +1,7 @@
 package com.edutech.progressive.entity;
 
 public class Customers {
-    //test run
+
 private int cutomerId;
 private String name;
 private String email;
