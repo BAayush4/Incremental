@@ -26,7 +26,7 @@ public List<Accounts> getAllAccountsSortedByBalance() throws SQLException {
 public List<Accounts> getAccountsByUser(int userld) throws SQLException {
     return null;
 }
-public Accounts getAccountByld(int accountld) throws SQLException {
+public Accounts getAccountById(int accountld) throws SQLException {
     return null;
 }
 public void updateAccount(Accounts accounts) throws SQLException {

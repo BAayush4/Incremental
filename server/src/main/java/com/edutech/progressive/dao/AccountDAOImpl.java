@@ -10,14 +10,12 @@ public class AccountDAOImpl implements AccountDAO{
 
     @Override
     public int addAccount(Accounts accounts) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addAccount'");
+        return -1;
     }
 
     @Override
     public Accounts getAccountById(int accountId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAccountById'");
+        return null;
     }
 
     @Override

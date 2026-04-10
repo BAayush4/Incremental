@@ -1,6 +1,6 @@
 package com.edutech.progressive.entity;
 
-public class Customers {
+public class Customers implements Comparable<Customers> {
 
 private int customerId;
 private String name;
@@ -11,7 +11,7 @@ private String role;
 public int getCutomerId() {
     return customerId;
 }
-public void setCutomerId(int cutomerId) {
+public void setCustomerId(int cutomerId) {
     this.customerId = cutomerId;
 }
 public String getName() {
@@ -53,6 +53,10 @@ public Customers(int cutomerId, String name, String email, String username, Stri
     this.role = role;
 }
 public Customers() {
+}
+@Override
+public int compareTo(Customers o) {
+    return this.getName().compareToIgnoreCase(o.getName());
 }
 
 

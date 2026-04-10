@@ -15,8 +15,7 @@ public class CustomerDAOImpl implements CustomerDAO{
 
     @Override
     public Customers getCustomerById(int customerId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCustomerById'");
+        return null;
     }
 
     @Override
