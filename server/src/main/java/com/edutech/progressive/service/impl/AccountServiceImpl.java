@@ -1,38 +1,55 @@
 package com.edutech.progressive.service.impl;
 
+import com.edutech.progressive.dao.AccountDAO;
+import com.edutech.progressive.entity.Accounts;
+import com.edutech.progressive.service.AccountService;
+
 import java.sql.SQLException;
+import java.util.Comparator;
 import java.util.List;
 
-import com.edutech.progressive.dao.AccountDAO;
-import com.edutech.progressive.dao.AccountDAOImpl;
-import com.edutech.progressive.entity.Accounts;
+public class AccountServiceImpl implements AccountService {
 
-public class AccountServiceImpl  {
+    private final AccountDAO accountDAO;
 
+    public AccountServiceImpl(AccountDAO accountDAO) {
+        this.accountDAO = accountDAO;
+    }
 
-    private AccountDAO accountDAO;
-public AccountServiceImpl(AccountDAOImpl accountDAO) {
-this.accountDAO = accountDAO;
-}
-public List<Accounts> getAllAccounts() throws SQLException{
-    return null;
-}
-public int addAccount(Accounts accounts) throws SQLException {
-    return -1;
-}
-public List<Accounts> getAllAccountsSortedByBalance() throws SQLException {
-    return null;
-}
-public List<Accounts> getAccountsByUser(int userld) throws SQLException {
-    return null;
-}
-public Accounts getAccountById(int accountld) throws SQLException {
-    return null;
-}
-public void updateAccount(Accounts accounts) throws SQLException {
-    return;
-}
-public void deleteAccount(int accountld) throws SQLException {
-    return;
-}
+    @Override
+    public List<Accounts> getAllAccounts() throws SQLException {
+        return accountDAO.getAllAccounts();
+    }
+
+    @Override
+    public Accounts getAccountById(int accountId) throws SQLException {
+        return accountDAO.getAccountById(accountId);
+    }
+
+    @Override
+    public int addAccount(Accounts accounts) throws SQLException {
+        return accountDAO.addAccount(accounts);
+    }
+
+    @Override
+    public void updateAccount(Accounts accounts) throws SQLException {
+        accountDAO.updateAccount(accounts);
+    }
+
+    @Override
+    public void deleteAccount(int accountId) throws SQLException {
+        accountDAO.deleteAccount(accountId);
+    }
+
+    @Override
+    public List<Accounts> getAllAccountsSortedByBalance() throws SQLException {
+        List<Accounts> list = accountDAO.getAllAccounts();
+        list.sort(Comparator.comparingDouble(Accounts::getBalance));
+        return list;
+    }
+
+    @Override
+    public List<Accounts> getAccountsByUser(int userId) throws SQLException {
+        return accountDAO.getAllAccountsByCustomer(userId);
+    }
 }
