@@ -1,0 +1,80 @@
+package com.edutech.progressive.service.impl;
+
+
+import com.edutech.progressive.entity.Customers;
+import com.edutech.progressive.exception.CustomerAlreadyExistsException;
+import com.edutech.progressive.repository.AccountRepository;
+import com.edutech.progressive.repository.CustomerRepository;
+import com.edutech.progressive.repository.TransactionRepository;
+import com.edutech.progressive.service.CustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.SQLException;
+import java.util.Collections;
+import java.util.List;
+
+@Service
+public class CustomerServiceImplJpa implements CustomerService {
+
+    @Autowired
+    TransactionRepository transactionRepository;
+
+    @Autowired
+    AccountRepository accountRepository;
+
+    private final CustomerRepository customerRepository;
+
+    @Autowired
+    public CustomerServiceImplJpa(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
+    }
+
+    @Override
+    public List<Customers> getAllCustomers() throws SQLException {
+        return customerRepository.findAll();
+    }
+
+    @Override
+    public Customers getCustomerById(int customerId) throws SQLException {
+        return customerRepository.findByCustomerId(customerId);
+    }
+
+    @Override
+    public int addCustomer(Customers customers) throws SQLException {
+        Customers existingCustomer = customerRepository.findByEmail(customers.getEmail());
+        if (existingCustomer != null) {
+            throw new CustomerAlreadyExistsException("Customer with give email already exists : " + customers.getEmail());
+        }
+        return customerRepository.save(customers).getCustomerId();
+    }
+
+    @Override
+    public void updateCustomer(Customers customers) throws SQLException {
+        Customers existingCustomer = customerRepository.findByEmail(customers.getEmail());
+        if (existingCustomer != null && customers.getCustomerId() != existingCustomer.getCustomerId()) {
+            throw new CustomerAlreadyExistsException("Customer with give email already exists : " + customers.getEmail());
+        }
+        if (!customers.getRole().isBlank()) {
+            customerRepository.save(customers);
+        } else {
+            throw new SQLException("Role for a customer cannot be empty");
+        }
+    }
+
+    @Override
+    @Transactional
+    public void deleteCustomer(int customerId) throws SQLException {
+        transactionRepository.deleteByCustomerId(customerId);
+        accountRepository.deleteByCustomerId(customerId);
+        customerRepository.deleteByCustomerId(customerId);
+    }
+
+    @Override
+    public List<Customers> getAllCustomersSortedByName() throws SQLException {
+        List<Customers> sortedCustomers = customerRepository.findAll();
+        Collections.sort(sortedCustomers);
+        return sortedCustomers;
+    }
+}
